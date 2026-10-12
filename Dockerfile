@@ -25,7 +25,7 @@ RUN printf '#!/bin/sh\n\
 set -e\n\
 echo "==> Gerando lexer e parser..."\n\
 rm -rf /tmp/antlr-generated\n\
-antlr4 -Dlanguage=Python3 -no-listener -no-visitor -o /tmp/antlr-generated miniC.g4\n\
+antlr4 -Dlanguage=Python3 -no-listener -visitor -o /tmp/antlr-generated miniC.g4\n\
 echo "==> Executando..."\n\
 PYTHONPATH=/tmp/antlr-generated python3 main.py "$@"\n' \
     > /usr/local/bin/run-minic \

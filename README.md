@@ -1,4 +1,4 @@
-# TP4 — Análise Sintática: Gramática miniC
+# TP6 — Análise Sintática: Gramática miniC
 
 Trabalho da disciplina de Compiladores, desenvolvido para implementar um analisador léxico e sintático para a linguagem **miniC** utilizando **ANTLR 4** e **Python**.
 

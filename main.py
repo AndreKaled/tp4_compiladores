@@ -3,8 +3,9 @@ from antlr4 import FileStream, CommonTokenStream
 from antlr4.tree.Tree import TerminalNode, ErrorNode
 from miniCLexer import miniCLexer
 from miniCParser import miniCParser
+from SemanticVisitor import SemanticVisitor
 
-TOKENS_IGNORADOS = {}
+TOKENS_IGNORADOS = {'<EOF>'}
 
 
 def imprimir_arvore(node, parser, prefix="", ultimo=True):
@@ -45,10 +46,12 @@ def main():
     parser       = miniCParser(token_stream)
     tree         = parser.program()
 
-    erros = parser.getNumberOfSyntaxErrors()
-    if erros:
-        print(f"   {erros} erro(s) sintático(s) encontrado(s).\n")
+    # aq faz a analise sintatica
+    erros_sint = parser.getNumberOfSyntaxErrors()
+    if erros_sint:
+        print(f"   {erros_sint} erro(s) sintático(s) encontrado(s).\n")
 
+    # arvore sintatica
     nome_arquivo = sys.argv[1]
     print(nome_arquivo)
     filhos = [tree.getChild(i) for i in range(tree.getChildCount())]
@@ -58,6 +61,18 @@ def main():
     for i, filho in enumerate(filhos_visiveis):
         eh_ultimo = (i == len(filhos_visiveis) - 1)
         imprimir_arvore(filho, parser, "", eh_ultimo)
+
+    # aq faz a analise semantica
+    print("\n Analise semântica\n")
+    visitor = SemanticVisitor()
+    visitor.visit(tree)
+
+    if visitor.erros:
+        print(f"\n{len(visitor.erros)} erro(s) semântico(s) encontrado(s):\n")
+        for e in visitor.erros:
+            print(f"    X {e}\n")
+    else:
+        print("\n   Nenhum erro semântico encontrado :D")
 
 
 if __name__ == '__main__':
