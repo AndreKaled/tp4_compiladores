@@ -30,5 +30,5 @@ echo "==> Executando..."\n\
 PYTHONPATH=/tmp/antlr-generated python3 main.py "$@"\n' \
     > /usr/local/bin/run-minic \
     && chmod +x /usr/local/bin/run-minic
- 
+
 ENTRYPOINT ["run-minic"]
